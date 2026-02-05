@@ -1,0 +1,86 @@
+[
+  {
+    "id": "PSCA-GQ-01",
+    "question": "List all mustSupport elements in PatientPSCA.",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps",
+    "version": null,
+    "element_path": null
+  },
+  {
+    "id": "PSCA-GQ-02",
+    "question": "List all mustSupport elements in ObservationAlcoholUsePSCA.",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/observation-alcoholuse-ca-ps",
+    "version": null,
+    "element_path": null
+  },
+  {
+    "id": "PSCA-GQ-03",
+    "question": "List all mustSupport elements in MedicationRequestPSCA.",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/medicationrequest-ca-ps",
+    "version": null,
+    "element_path": null
+  },
+  {
+    "id": "PSCA-GQ-04",
+    "question": "What binding applies to Patient.address.type in PatientPSCA?",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps",
+    "version": null,
+    "element_path": "Patient.address.type"
+  },
+  {
+    "id": "PSCA-GQ-05",
+    "question": "What binding applies to Observation.status in ObservationAlcoholUsePSCA?",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/observation-alcoholuse-ca-ps",
+    "version": null,
+    "element_path": "Observation.status"
+  },
+  {
+    "id": "PSCA-GQ-06",
+    "question": "What binding applies to MedicationRequest.dosageInstruction.route in MedicationRequestPSCA?",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/medicationrequest-ca-ps",
+    "version": null,
+    "element_path": "MedicationRequest.dosageInstruction.route"
+  },
+  {
+    "id": "PSCA-GQ-07",
+    "question": "List constraints on Patient.name in PatientPSCA (e.g., core-pat-1).",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps",
+    "version": null,
+    "element_path": "Patient.name"
+  },
+  {
+    "id": "PSCA-GQ-08",
+    "question": "List constraints on Observation in ObservationAlcoholUsePSCA (e.g., dom-2).",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/observation-alcoholuse-ca-ps",
+    "version": null,
+    "element_path": "Observation"
+  },
+  {
+    "id": "PSCA-GQ-09",
+    "question": "List constraints on MedicationRequest in MedicationRequestPSCA (e.g., dom-2).",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/medicationrequest-ca-ps",
+    "version": null,
+    "element_path": "MedicationRequest"
+  },
+  {
+    "id": "PSCA-GQ-10",
+    "question": "Which profile elements bind to ValueSet http://fhir.infoway-inforoute.ca/io/psca/ValueSet/pCLOCD?",
+    "profile_canonical_url": null,
+    "version": null,
+    "element_path": null
+  },
+  {
+    "id": "PSCA-GQ-11",
+    "question": "Show the baseDefinition chain for PatientPSCA and the PS-CA canonical URL.",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps",
+    "version": null,
+    "element_path": null
+  },
+  {
+    "id": "PSCA-GQ-12",
+    "question": "What changed vs base for Patient.identifier in PatientPSCA?",
+    "profile_canonical_url": "http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps",
+    "version": null,
+    "element_path": "Patient.identifier"
+  }
+]

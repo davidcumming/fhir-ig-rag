@@ -1,6 +1,6 @@
 PY=.venv/bin/python
 
-.PHONY: up down ps logs psql smoke migrate import-psca resolve
+.PHONY: up down ps logs psql smoke migrate import-psca resolve serve
 
 up:
 	docker compose up -d
@@ -29,3 +29,6 @@ import-psca:
 resolve:
 	@echo "Usage: make resolve CANONICAL='http://...'"
 	$(PY) -m app.ingest.cli resolve --canonical "$(CANONICAL)"
+
+serve:
+	$(PY) -m uvicorn app.api.main:app --reload

@@ -13,6 +13,8 @@ from app.db.config import PROJECT_ROOT
 from app.db.engine import SessionLocal
 from app.db.models import Artifact, Package
 from app.ingest.loaders.sd_elements_loader import load_sd_elements
+from app.ingest.loaders.sd_bindings_loader import load_sd_bindings
+from app.ingest.loaders.sd_constraints_loader import load_sd_constraints
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 
@@ -196,6 +198,38 @@ def load_sd_elements_cmd(
 ) -> None:
     """Populate sd_elements for the given IG and version."""
     summary = load_sd_elements(ig, ig_version, truncate=truncate)
+    typer.echo(json.dumps(summary, indent=2))
+
+
+@app.command("load-sd-bindings")
+def load_sd_bindings_cmd(
+    ig: str = typer.Option(..., "--ig", help="IG code, e.g., ps-ca"),
+    ig_version: str = typer.Option(..., "--ig-version", help="IG version, e.g., 2.1.1"),
+    truncate: bool = typer.Option(
+        False,
+        "--truncate",
+        "--reset",
+        help="Delete existing sd_bindings for this IG/version before loading.",
+    ),
+) -> None:
+    """Populate sd_bindings for the given IG and version."""
+    summary = load_sd_bindings(ig, ig_version, truncate=truncate)
+    typer.echo(json.dumps(summary, indent=2))
+
+
+@app.command("load-sd-constraints")
+def load_sd_constraints_cmd(
+    ig: str = typer.Option(..., "--ig", help="IG code, e.g., ps-ca"),
+    ig_version: str = typer.Option(..., "--ig-version", help="IG version, e.g., 2.1.1"),
+    truncate: bool = typer.Option(
+        False,
+        "--truncate",
+        "--reset",
+        help="Delete existing sd_constraints for this IG/version before loading.",
+    ),
+) -> None:
+    """Populate sd_constraints for the given IG and version."""
+    summary = load_sd_constraints(ig, ig_version, truncate=truncate)
     typer.echo(json.dumps(summary, indent=2))
 
 

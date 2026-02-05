@@ -70,6 +70,12 @@ class Artifact(Base):
     sd_elements: Mapped[list["SDElement"]] = relationship(
         "SDElement", back_populates="artifact", cascade="all, delete-orphan"
     )
+    sd_bindings: Mapped[list["SDBinding"]] = relationship(
+        "SDBinding", back_populates="artifact", cascade="all, delete-orphan"
+    )
+    sd_constraints: Mapped[list["SDConstraint"]] = relationship(
+        "SDConstraint", back_populates="artifact", cascade="all, delete-orphan"
+    )
 
 
 class SDElement(Base):
@@ -102,3 +108,58 @@ class SDElement(Base):
     )
 
     artifact: Mapped[Artifact] = relationship("Artifact", back_populates="sd_elements")
+
+
+class SDBinding(Base):
+    __tablename__ = "sd_bindings"
+    __table_args__ = (
+        UniqueConstraint("artifact_id", "path", "value_set", name="uq_sd_bindings_artifact_path_valueset"),
+        Index("ix_sd_binding_sd_canonical_path", "sd_canonical_url", "path"),
+        Index("ix_sd_binding_artifact_id", "artifact_id"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    artifact_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("artifacts.id", ondelete="CASCADE"), nullable=False
+    )
+    sd_canonical_url: Mapped[str] = mapped_column(Text, nullable=False)
+    sd_version: Mapped[str | None] = mapped_column(Text, nullable=True)
+    path: Mapped[str] = mapped_column(Text, nullable=False)
+    strength: Mapped[str | None] = mapped_column(Text, nullable=True)
+    value_set: Mapped[str] = mapped_column(Text, nullable=False, server_default="")
+    binding_json: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    source_choice: Mapped[str] = mapped_column(Text, nullable=False)
+    loaded_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    artifact: Mapped[Artifact] = relationship("Artifact", back_populates="sd_bindings")
+
+
+class SDConstraint(Base):
+    __tablename__ = "sd_constraints"
+    __table_args__ = (
+        UniqueConstraint("artifact_id", "path", "key", name="uq_sd_constraint_artifact_path_key"),
+        Index("ix_sd_constraint_sd_canonical_path", "sd_canonical_url", "path"),
+        Index("ix_sd_constraint_artifact_id", "artifact_id"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    artifact_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("artifacts.id", ondelete="CASCADE"), nullable=False
+    )
+    sd_canonical_url: Mapped[str] = mapped_column(Text, nullable=False)
+    sd_version: Mapped[str | None] = mapped_column(Text, nullable=True)
+    path: Mapped[str] = mapped_column(Text, nullable=False)
+    key: Mapped[str] = mapped_column(Text, nullable=False)
+    severity: Mapped[str | None] = mapped_column(Text, nullable=True)
+    human: Mapped[str | None] = mapped_column(Text, nullable=True)
+    expression: Mapped[str | None] = mapped_column(Text, nullable=True)
+    xpath: Mapped[str | None] = mapped_column(Text, nullable=True)
+    constraint_json: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    source_choice: Mapped[str] = mapped_column(Text, nullable=False)
+    loaded_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    artifact: Mapped[Artifact] = relationship("Artifact", back_populates="sd_constraints")

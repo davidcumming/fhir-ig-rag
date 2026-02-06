@@ -357,3 +357,87 @@ def gq_profile_summary(
         },
         "generated_at": generated_at,
     }
+
+
+@app.get("/gq/element-details")
+def gq_element_details(
+    canonical: str = Query(..., description="StructureDefinition canonical URL"),
+    path: str = Query(..., description="Element path"),
+    version: Optional[str] = Query(None, description="Optional version"),
+    include_profile_summary: bool = Query(True, description="Include profile metadata"),
+    session: Session = Depends(get_session),
+):
+    artifact, pkg = _resolve_artifact(session, canonical, version)
+
+    element_row = session.execute(
+        select(SDElement)
+        .where(SDElement.artifact_id == artifact.id, SDElement.path == path)
+        .limit(1)
+    ).scalar_one_or_none()
+    if not element_row:
+        raise HTTPException(status_code=404, detail="Element not found for this profile")
+
+    bindings = session.execute(
+        select(SDBinding.strength, SDBinding.value_set, SDBinding.source_choice)
+        .where(SDBinding.artifact_id == artifact.id, SDBinding.path == path)
+        .order_by(SDBinding.strength, SDBinding.value_set)
+    ).all()
+
+    constraints = session.execute(
+        select(
+            SDConstraint.key,
+            SDConstraint.severity,
+            SDConstraint.human,
+            SDConstraint.expression,
+            SDConstraint.source_choice,
+        )
+        .where(SDConstraint.artifact_id == artifact.id, SDConstraint.path == path)
+        .order_by(SDConstraint.key)
+    ).all()
+
+    generated_at = datetime.now(timezone.utc).isoformat()
+
+    profile_block = (
+        {
+            "canonical_url": artifact.canonical_url,
+            "version": artifact.version,
+            "name": artifact.name,
+            "sd_type": artifact.sd_type,
+            "title": artifact.title,
+            "base_definition": artifact.base_definition,
+        }
+        if include_profile_summary
+        else None
+    )
+
+    return {
+        "query_id": "PSCA-MCP-ELEMENT-DETAILS-01",
+        "scope": {"ig": pkg.ig, "ig_version": pkg.ig_version},
+        "profile": profile_block,
+        "element": {
+            "path": element_row.path,
+            "must_support": element_row.must_support,
+            "min": element_row.min,
+            "max": element_row.max,
+            "json": getattr(element_row, "raw_json", None),
+        },
+        "bindings": [
+            {"strength": b.strength, "value_set": b.value_set, "source": b.source_choice}
+            for b in bindings
+        ],
+        "constraints": [
+            {
+                "key": c.key,
+                "severity": c.severity,
+                "human": c.human,
+                "expression": c.expression,
+                "source": c.source_choice,
+            }
+            for c in constraints
+        ],
+        "counts": {
+            "bindings": len(bindings),
+            "constraints": len(constraints),
+        },
+        "generated_at": generated_at,
+    }

@@ -59,6 +59,18 @@ def psca_where_used_value_set(
     )
 
 
+@mcp.tool()
+def psca_profile_summary(canonical: str, version: Optional[str] = None):
+    """Summarize mustSupport/bindings/constraints for a profile."""
+    return _http_get("/gq/profile-summary", {"canonical": canonical, "version": version, "include_all": False})
+
+
+@mcp.tool()
+def psca_profile_summary_all(canonical: str, version: Optional[str] = None):
+    """Summarize a profile and include all rows (not just top 10)."""
+    return _http_get("/gq/profile-summary", {"canonical": canonical, "version": version, "include_all": True})
+
+
 if __name__ == "__main__":
     print("MCP server started (stdio). Waiting for client...", file=sys.stderr, flush=True)
     mcp.run(transport="stdio")

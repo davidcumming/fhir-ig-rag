@@ -71,6 +71,15 @@ def psca_profile_summary_all(canonical: str, version: Optional[str] = None):
     return _http_get("/gq/profile-summary", {"canonical": canonical, "version": version, "include_all": True})
 
 
+@mcp.tool()
+def psca_element_details(canonical: str, path: str, version: Optional[str] = None):
+    """Get detailed information for a specific element of a profile."""
+    return _http_get(
+        "/gq/element-details",
+        {"canonical": canonical, "path": path, "version": version},
+    )
+
+
 if __name__ == "__main__":
     print("MCP server started (stdio). Waiting for client...", file=sys.stderr, flush=True)
     mcp.run(transport="stdio")

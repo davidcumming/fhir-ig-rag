@@ -143,6 +143,9 @@ curl -s "http://localhost:8000/gq/value-set/where-used?value_set=https://fhir.in
 curl -s "http://localhost:8000/gq/profile-summary?canonical=http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps" | jq .
 # Full lists (include_all=true)
 curl -s "http://localhost:8000/gq/profile-summary?canonical=http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps&include_all=true" | jq .
+
+# 6) Element details (bindings/constraints for a specific path)
+curl -s "http://localhost:8000/gq/element-details?canonical=http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/allergyintolerance-ca-ps&path=AllergyIntolerance.code" | jq .
 ```
 
 ---
@@ -162,6 +165,7 @@ Tools exposed:
 - `psca_where_used_value_set(value_set, ig='ps-ca', ig_version='2.1.1')`
 - `psca_profile_summary(canonical, version=None)`
 - `psca_profile_summary_all(canonical, version=None)`
+- `psca_element_details(canonical, path, version=None)`
 
 ### Claude Desktop quick setup
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:

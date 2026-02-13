@@ -166,6 +166,17 @@ Tools exposed:
 - `psca_profile_summary(canonical, version=None)`
 - `psca_profile_summary_all(canonical, version=None)`
 - `psca_element_details(canonical, path, version=None)`
+- `psca_router(question, canonical=None, path=None, value_set=None, version=None, execute=True)` (hybrid NL router)
+
+Router env vars:
+- `ROUTER_MODE=ollama` (otherwise deterministic)
+- `OLLAMA_URL` (default `http://localhost:11434`)
+- `OLLAMA_MODEL` (default `qwen2.5:3b-instruct`)
+
+Example natural-language prompts (no tool names needed):
+1) “What bindings apply to AllergyIntolerance.code in PS-CA? canonical http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/allergyintolerance-ca-ps”
+2) “Show me everything required for Patient.name in PS-CA (must support, bindings, constraints).”
+3) “Where is https://fhir.infoway-inforoute.ca/ValueSet/pharmaceuticalbiologicproductandsubstancecode used across PS-CA?”
 
 ### Claude Desktop quick setup
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:

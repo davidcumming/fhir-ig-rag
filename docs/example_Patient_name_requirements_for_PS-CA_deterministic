@@ -1,0 +1,33 @@
+# Prompt
+For PS-CA, show me everything required for Patient.name (must support, cardinality, bindings, constraints). Canonical is http://fhir.infoway-inforoute.ca/io/psca/StructureDefinition/patient-ca-ps and the path is Patient.name.
+
+# Response
+
+I'll retrieve the comprehensive requirements for Patient.name in the PS-CA profile.Based on the PS-CA profile requirements, here's everything required for **Patient.name**:
+
+## Must Support
+✓ **Patient.name** is marked as Must Support
+
+### Child elements that are Must Support:
+- **Patient.name.family** - Must Support
+- **Patient.name.given** - Must Support  
+- **Patient.name.text** - Must Support
+
+## Cardinality
+- **Patient.name**: minimum **1**, maximum ***** (at least one name is required)
+
+## Bindings
+- No specific bindings are defined for Patient.name
+
+## Constraints
+**Constraint key**: `core-pat-1`  
+**Severity**: error  
+**Rule**: Either Patient.name.given and/or Patient.name.family and/or Patient.name.text SHALL be present, OR a Data Absent Reason Extension SHALL be present.
+
+**Expression**: 
+```
+(family.exists() or given.exists() or text.exists()) xor extension.where(url='http://hl7.org/fhir/StructureDefinition/data-absent-reason').exists()
+```
+
+## Summary
+For Patient.name in PS-CA, you must provide at least one name element, and within that name you must include at least one of: family name, given name, or text representation. If you cannot provide any of these, you must include a data-absent-reason extension explaining why the data is missing.
